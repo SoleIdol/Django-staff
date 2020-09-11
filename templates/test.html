@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block container %}
+    <form action="/dj06app/login" method="post" style="text-align: center">
+        <input type="text" placeholder="用户名" name="u_name">
+        <br>
+        {#    图片验证码显示#}
+        <img src="/app/get_verify_img/" alt="" id="code">
+        <br>
+        <input type="text" placeholder="验证码" name="verify_code">
+        <br>
+        <input type="submit" value="登录">
+    </form>
+{% endblock %}
+{% block ext_js %}
+    <script>
+        $(function () {
+            {#    js点击事件#}
+            $("#code").click(function () {
+                console.log("被执行了");
+                {#        Math 获取动态的图片#}
+                $(this).attr("src", "/app/get_verify_img/" + Math.random());
+            })
+        })
+
+    </script>
+{% endblock %}
+

@@ -1,0 +1,111 @@
+
+.head_icon {
+    width: 36px;
+    height: 36px;
+    border: 1px outset gray;
+    padding: 2px;
+    border-radius: 4px;
+
+}
+
+.father {
+    padding: 30px;
+}
+
+.user {
+    border-top: 1px inset #bbb;
+    padding-top: 10px;
+    border-radius: 3px;
+}
+
+.son {
+    padding: 10px 10px 0;
+}
+
+.weibo_content {
+    padding: 15px 36px 0;
+}
+
+.username {
+    font-size: 22px;
+    margin: 0 10px;
+    color: #444;
+}
+
+.uptime {
+    color: #999;
+}
+
+
+.talk {
+    border-top: 1px solid #bbb;
+
+    margin-top: 10px;
+}
+
+.message {
+    clear: both;
+    padding: 10px 15px;
+}
+
+.message_icon {
+    width: 26px;
+    border: 1px outset gray;
+    padding: 1px;
+    border-radius: 4px;
+}
+
+.u_u1 {
+    font-size: 14px;
+    color: #449d44;
+}
+
+.u_m {
+    font-size: 13px;
+    margin-top: 8px;
+}
+
+a {
+    color: white;
+    text-decoration: none;
+}
+
+.up_img {
+    width: 260px;
+    padding: 10px 3px;
+}
+
+.page_nav {
+    text-align: center;
+}
+
+.zan {
+    width: 100%;
+    text-align: right;
+    padding: 5px 10px;
+}
+
+.msg_time {
+    font-size: 10px;
+    color: #bbb;
+    top: -10px;
+}
+
+
+.head_icon {
+    width: 36px;
+    border: 1px outset gray;
+    border-radius: 4px;
+}
+
+.father {
+    padding: 20px 30px;
+}
+
+.son {
+    padding: 10px;
+}
+
+.weibo_content {
+    padding: 5px 36px;
+}

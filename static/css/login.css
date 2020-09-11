@@ -1,0 +1,37 @@
+
+.form_div {
+    border-right: 1px solid #dddddd;
+}
+
+.form {
+    padding: 20px 60px 70px;
+}
+
+.hy {
+    font-size: 40px;
+    font-family: 华文行楷;
+    font-weight: 500;
+    text-align: center;
+    margin-top: 36px;
+}
+
+.bg {
+    width: 100%;
+    margin: 50px auto;
+}
+
+.container {
+    margin-top: 36px;
+}
+
+.checkImg {
+    background: #50994d;
+    color: white;
+    font-size: 23px;
+    text-align: center;
+    float: left;
+    width: 100px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+

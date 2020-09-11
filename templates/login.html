@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+{% block ext_css %}
+    <link rel="stylesheet" href="/static/css/login.css">
+{% endblock %}
+
+{% block nav_son2 %}
+    <ul class="nav navbar-nav navbar-right">
+        <li><a href="{% url 'app:login' %}">登录</a></li>
+        <li><a href="{% url 'app:register' %}">注册</a></li>
+    </ul>
+{% endblock %}
+
+{% block container %}
+    <div class="row container">
+        <div class="col-md-3"></div>
+
+        <div class="col-md-6 form_div">
+            <p class="hy">欢迎登录</p>
+            <form action="{% url 'app:login' %}" method="post" class="form-horizontal">
+
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">昵称</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="u_name"
+                               pattern=".{3,10}" title="用户名为6~20位" required placeholder="请输入昵称(3~10位)">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">密码</label>
+                    <div class="col-sm-8">
+                        <input type="password" class="form-control" name="u_password"
+                               pattern=".{6,20}" title="用户名为6~20位" required placeholder="请输入密码(6~20位)">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">验证码</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" name="checkNum1"
+                               required placeholder="请输入验证码">
+
+                        {#                        <input type="hidden" name="checkNum2" value="{{ checkNum }}">#}
+                    </div>
+                    {#                    <div class="checkImg" onclick="change(this,request.session.get('code'))">{{ checkNum }}</div>#}
+                    <div><img src="/app/get_verify_img/" alt="" id="code"></div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-4" id="num_err"></div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-2">
+                        <button type="submit" class="btn btn-default">登录</button>
+                    </div>
+                    <div class="col-sm-4">
+                        <button type="reset" class="btn btn-default">重置</button>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+
+{% endblock %}
+
+{% block ext_js %}
+    <script>   {% comment %}
+        {#  支持五个判断  #}
+        var ERRS = 31
+        var err_num = 0
+
+        function change(own) {
+            var str1 = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            ss = ''
+            for (var i = 0; i < 4; i++) {
+                var index = Math.floor(Math.random() * (str1.length))
+                ss += str1[index]
+            }
+            $(own).text(ss)
+            $('input[name=checkNum2]').val(ss)
+
+        }
+
+
+        function checkNum(own) {
+
+            if ($(own).val().toLowerCase() != $(own).parent().next().text().toLowerCase()) {
+                $(own).css('border-color', '#f11515')
+                $('#num_err').text('验证码输入错误！')
+                $('#num_err').css({'color': '#f11515', 'margin-top': '8px'})
+                err_num |= 1
+            } else {
+                $(own).css('border-color', '#ccc')
+                $('#num_err').text('')
+                err_num &= (ERRS - 1)
+            }
+        }
+
+        function isSubmit() {
+            if (err_num) {
+                alert('验证码错误！！！')
+                return false
+            } else {
+                return true
+            }
+        }
+      {% endcomment %}
+    {#    js点击事件#}
+    $("#code").click(function () {
+        console.log("被执行了");
+        {#        Math 获取动态的图片#}
+        $(this).attr("src", "/app/get_verify_img/" + Math.random());
+    })
+    </script>
+{% endblock %}
+

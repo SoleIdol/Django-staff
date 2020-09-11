@@ -1,0 +1,218 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block ext_css %}
+    <link rel="stylesheet" href="{% static 'css/register.css' %}">
+{% endblock %}
+
+
+{% block nav_son2 %}
+    <ul class="nav navbar-nav navbar-right">
+        <li><a href="{% url 'app:login' %}">登录</a></li>
+        <li><a href="{% url 'app:register' %}">注册</a></li>
+    </ul>
+{% endblock %}
+
+{% block container %}
+    <div class="row container">
+        <div class="col-md-3"></div>
+
+        <div class="col-md-6 form_div">
+
+
+            <form action="{% url 'app:register' %}" method="post" class="form-horizontal"
+                  onsubmit="return isSubmit()">
+                <div class="form-group">
+                    <div class="hy col-sm-8">欢迎注册</div>
+                    <div class="col-sm-4"></div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">昵称</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" name="u_name" onblur="userExists(this)"
+                               pattern=".{3,10}" title="用户名为3~10位" required placeholder="请输入昵称(3~10位)">
+                    </div>
+                    <div class="col-sm-4" id="name-err"></div>
+                </div>
+
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">密码</label>
+                    <div class="col-sm-6">
+                        <input type="password" class="form-control" name="u_password1" onblur="pwdLen(this)"
+                               pattern=".{6,20}" title="用户名为6~20位" required placeholder="请输入密码(6~20位)">
+                    </div>
+                    <div class="col-sm-4 err"></div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">确认密码</label>
+                    <div class="col-sm-6">
+                        <input type="password" class="form-control" name="u_password2"
+                               onblur="checkPwd(this)" required placeholder="请再次确认密码">
+                    </div>
+                    <div class="col-sm-4" id="password2-err"></div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">年龄</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" name="u_age" onblur="checkAge(this)" required
+                               placeholder="请输入年龄">
+                    </div>
+                    <div class="col-sm-4"></div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">性别</label>
+                    <div class="col-sm-offset-1 col-sm-5">
+                        <div class="radio">
+                            <input type="radio" name="u_gender" value="1" checked>男
+                        </div>
+                        <div class="radio">
+                            <input type="radio" name="u_gender" value="0">女
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">电话</label>
+                    <div class="col-sm-6">
+                        <input type="tel" class="form-control" name="u_tel"
+                               pattern=".{11}" title="电话号码为11位" onblur="checkTel(this)" required placeholder="请输入电话号码">
+                    </div>
+                    <div class="col-sm-4"></div>
+                </div>
+
+                <input type="hidden" name="flag" value="1">
+
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-2">
+                        <button type="submit" class="btn btn-default">注册</button>
+                    </div>
+                    <div class="col-sm-4">
+                        <button type="reset" class="btn btn-default">重置</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+
+{% endblock %}
+{% block ext_js %}
+    <script>
+        {#  支持五个判断  #}
+        var ERRS = 31
+        var err_num = 0
+
+
+        function userExists(own) {
+            url = '/app/userExists/'
+            data = {
+                'u_name': $(own).val()
+            }
+            $.post(url, data, function (msg) {
+                console.log(msg.exists);
+                if (msg.exists) {
+                    $('input[name=u_name]').css('border-color', '#f11515')
+                    $('#name-err').text('该用户名已存在')
+                    $('#name-err').css({'color': '#f11515', 'margin-top': '8px'})
+                    err_num |= 1
+                } else {
+                    $('input[name=u_name]').css('border-color', '#ccc')
+                    $('#name-err').text('')
+                    err_num &= (ERRS - 1)
+                }
+
+            })
+        }
+
+        function pwdLen(own) {
+            var len = $(own).val().length
+            if (len < 6 || len > 20) {
+                $(own).css('border-color', '#f11515')
+                $(own).parent().next().text('密码长度在6-20位')
+                $(own).parent().next().css({'color': '#f11515', 'margin-top': '8px'})
+                err_num |= 2
+            } else {
+                $(own).css('border-color', '#ccc')
+                $(own).parent().next().text('')
+                err_num &= (ERRS - 2)
+            }
+
+        }
+
+        function checkPwd(own) {
+            if ($(own).val() != $('input[name=u_password1]').val()) {
+                $(own).css('border-color', '#f11515')
+                $('#password2-err').text('两次密码输入不一致')
+                $('#password2-err').css({'color': '#f11515', 'margin-top': '8px'})
+
+                err_num |= 4
+            } else {
+                $(own).css('border-color', '#ccc')
+                $('#password2-err').text('')
+
+                err_num &= (ERRS - 4)
+            }
+        }
+
+        function checkAge(own) {
+            url = '/app/checkAge/'
+            data = {
+                'num': $(own).val()
+            }
+            $.post(url, data, function (msg) {
+                console.log(msg.is_pass);
+
+                if (!msg.is_pass) {
+                    $(own).css('border-color', '#f11515')
+                    $(own).parent().next().text('年龄为0~150之间的整数')
+                    $(own).parent().next().css({'color': '#f11515', 'margin-top': '8px'})
+
+                    err_num |= 8
+                } else {
+                    $(own).css('border-color', '#ccc')
+                    $(own).parent().next().text('')
+
+                    err_num &= (ERRS - 8)
+                }
+
+            })
+        }
+
+        function checkTel(own) {
+            url = '/app/checkTel/'
+            data = {
+                'num': $(own).val()
+            }
+            $.post(url, data, function (msg) {
+                console.log(msg.is_pass);
+
+
+                if (!msg.is_pass) {
+                    $(own).css('border-color', '#f11515')
+                    $(own).parent().next().text('请输入有效的电话号码')
+                    $(own).parent().next().css({'color': '#f11515', 'margin-top': '8px'})
+                    err_num |= 16
+                } else {
+                    $(own).css('border-color', '#ccc')
+                    $(own).parent().next().text('')
+                    err_num &= (ERRS - 16)
+                }
+
+            })
+        }
+
+        function isSubmit() {
+            if (err_num) {
+                alert('信息输入有误！！！')
+                return false
+            } else {
+                return true
+            }
+        }
+    </script>
+{% endblock %}

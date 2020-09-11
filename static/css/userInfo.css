@@ -1,0 +1,25 @@
+.father {
+    padding: 20px 50px;
+}
+
+.son1 {
+    font-size: 26px;
+    color: #4cae4c;
+}
+
+.table1 {
+    height: 100px;
+    width: 500px;
+    align-content: center;
+}
+
+.son2 {
+    padding: 10px 50px;
+}
+
+.img {
+    height: 200px;
+    border: 1px outset #0d5e76;
+    border-radius: 4px;
+    padding: 5px;
+}

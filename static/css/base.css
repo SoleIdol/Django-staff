@@ -1,0 +1,36 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.icon_my {
+    width: 36px;
+    height: 36px;
+    border-radius: 4px;
+    margin: 7px;
+}
+
+
+.content {
+    padding: 20px;
+    margin-bottom: 40px;
+    background-color: #f5f5f5;
+}
+
+
+.wb_log {
+    height: 36px;
+}
+
+.nav_head {
+    color: #666666;
+    font-weight: bold;
+    font-size: 20px;
+    padding: 8px 30px 0 10px;
+}
+
+.alert {
+    width: 500px;
+    margin: auto;
+
+}

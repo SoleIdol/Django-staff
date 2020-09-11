@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block nav_son2 %}
+    <ul class="nav navbar-nav navbar-right">
+        <li><a href="{% url 'appMain:main' %}">返回首页</a></li>
+    </ul>
+{% endblock %}
+
+{% block container %}
+    <h3>{{ err_msg }}</h3>
+{% endblock %}

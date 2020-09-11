@@ -1,0 +1,141 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block ext_css %}
+    <link rel="stylesheet" href="{% static 'css/register.css' %}">
+{% endblock %}
+
+
+{% block container %}
+    <div class="row container">
+        <div class="col-md-3"></div>
+
+        <div class="col-md-6 form_div">
+
+            <form action="{% url 'appMain:updateData' %}" method="post" class="form-horizontal"
+                  onsubmit="return isSubmit()">
+
+                <div class="form-group">
+                    <div class="hy col-sm-8">修改用户</div>
+                    <div class="col-sm-4"></div>
+                </div>
+                <input type="hidden" name="eid" value="{{ emp.id }}">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">昵称</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" name="e_name" value="{{ emp.e_name }}"
+                               pattern=".{3,10}" title="昵称为3~10位" required placeholder="请输入昵称(3~10位)">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">年龄</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" name="e_age" value="{{ emp.e_age }}"
+                               onblur="checkAge(this)" required placeholder="请输入年龄">
+                    </div>
+                    <div class="col-sm-4"></div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">性别</label>
+                    <div class="col-sm-offset-1 col-sm-5">
+                        <div class="radio">
+                            <input type="radio" name="e_gender" value="1"
+                                   {% if emp.e_gender %}checked{% endif %}>男
+                        </div>
+                        <div class="radio">
+                            <input type="radio" name="e_gender" value="0"
+                                   {% if not emp.e_gender %}checked{% endif %}>女
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">电话</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" name="e_tel" value="{{ emp.e_tel }}"
+                               pattern=".{11}" title="电话号码为11位" onblur="checkTel(this)" required placeholder="请输入电话号码">
+                    </div>
+                    <div class="col-sm-4"></div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-2">
+                        <button type="submit" class="btn btn-default">修改</button>
+                    </div>
+                    <div class="col-sm-4">
+                        <button type="reset" class="btn btn-default">重置</button>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+
+{% endblock %}
+{% block ext_js %}
+    <script>
+        {#  支持五个判断  #}
+        var ERRS = 31
+        var err_num = 0
+
+        function checkAge(own) {
+            url = '/app/checkAge/'
+            data = {
+                'num': $(own).val()
+            }
+            $.post(url, data, function (msg) {
+                console.log(msg.is_pass);
+
+                if (!msg.is_pass) {
+                    $(own).css('border-color', '#f11515')
+                    $(own).parent().next().text('年龄为0~150之间的整数')
+                    $(own).parent().next().css({'color': '#f11515', 'margin-top': '8px'})
+
+                    err_num |= 8
+                } else {
+                    $(own).css('border-color', '#ccc')
+                    $(own).parent().next().text('')
+
+                    err_num &= (ERRS - 8)
+                }
+
+            })
+        }
+
+        function checkTel(own) {
+            url = '/app/checkTel/'
+            data = {
+                'num': $(own).val()
+            }
+            $.post(url, data, function (msg) {
+                console.log(msg.is_pass);
+
+
+                if (!msg.is_pass) {
+                    $(own).css('border-color', '#f11515')
+                    $(own).parent().next().text('请输入有效的电话号码')
+                    $(own).parent().next().css({'color': '#f11515', 'margin-top': '8px'})
+                    err_num |= 16
+                } else {
+                    $(own).css('border-color', '#ccc')
+                    $(own).parent().next().text('')
+                    err_num &= (ERRS - 16)
+                }
+
+            })
+        }
+
+        function isSubmit() {
+            if (err_num) {
+                alert('信息输入有误！！！')
+                return false
+            } else {
+                return true
+            }
+        }
+    </script>
+{% endblock %}
+

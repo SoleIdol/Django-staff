@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+
+{% block nav_son2 %}
+    <ul class="nav navbar-nav navbar-right">
+        <li><a href="{% url 'app:login' %}">登录</a></li>
+        <li><a href="{% url 'app:register' %}">注册</a></li>
+    </ul>
+{% endblock %}
+
+{% block container %}
+    <h3>{{ err_msg }}</h3>
+{% endblock %}

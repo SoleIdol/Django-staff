@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+    <link rel="icon" href="/static/img/staff_logo.png">
+    <link rel="stylesheet" href="/static/css/base.css">
+    <link rel="stylesheet" href="/static/css/bootstrap.css">
+    <script src="/static/js/jquery-3.5.1.js"></script>
+
+    <!-- 页面独有样式 -->
+    {% block ext_css %}
+    {% endblock %}
+</head>
+<body>
+<!-- 导航栏nav -->
+<div class="nav">
+    {% block nav %}
+        <nav class="navbar navbar-default" style="background-color: #f8efc0;">
+            <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header nav_head">
+                    <img src="/static/img/staff_logo.png" class="wb_log">
+                    <span class="mini">员工信息</span>
+                </div>
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+                    {% block nav_son1 %}
+                        <ul class="nav navbar-nav">
+                            <li class="active">
+                                <a href="{% url 'appMain:main' %}">首页</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'appMain:main' %}">员工信息</a>
+                            </li>
+                        </ul>
+
+                    {% endblock %}
+                    {% block nav_son2 %}
+                        <ul class="nav navbar-nav navbar-right">
+                            <li><img class="icon_my"
+                                     src="/static/upload/{% if u_icon %}{{ u_icon }}{% else %}default.jpg{% endif %} "></li>
+                            <li><a href="#">{{ u_name }}</a></li>
+                            <li><a href="{% url 'app:logout' %}">退出登录</a></li>
+                        </ul>
+                    {% endblock %}
+
+                </div><!-- /.navbar-collapse -->
+            </div><!-- /.container-fluid -->
+        </nav>
+    {% endblock %}
+</div>
+<div class="alert">
+    {% block alert %}
+        {% for message in messages %}
+            <div class="alert alert-info alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <strong>{{ message }}</strong>
+            </div>
+        {% endfor %}
+    {% endblock %}
+</div>
+<!-- 容器container -->
+<div class="container">
+
+    {% block container %}
+        <div class="row">
+            <div class="col-md-1">
+                <!-- 边栏sidebar -->
+                <div class="sidebar_l">
+                    {% block sidebar_l %}
+                    {% endblock %}
+                </div>
+            </div>
+            <div class="col-md-10">
+                <!-- 内容区content -->
+                <div class="content">
+                    {% block content %}
+                        <p>内容区</p>
+                    {% endblock %}
+                </div>
+            </div>
+            <div class="col-md-1">
+                <!-- 边栏sidebar -->
+                <div class="sidebar_r">
+                    {% block sidebar_r %}
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
+
+
+
+
+    {% endblock %}
+</div>
+<!-- 底栏footbar -->
+<div class="footbar">
+    {% block footbar %}
+    {% endblock %}
+</div>
+<!-- 页面独有js -->
+<script src="/static/js/bootstrap.js"></script>
+{% block ext_js %}
+{% endblock %}
+</body>
+</html>

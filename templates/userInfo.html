@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block ext_css %}
+    <link rel="stylesheet" href="/static/css/userInfo.css">
+{% endblock %}
+
+{% block content %}
+    <div class="father">
+        <p class="son1">用户详细信息</p>
+        <div class="son2">
+            <table class="table1">
+                <tr>
+                    <td><span>昵称：</span><span>{{ emp.e_name }}</span></td>
+                    <td>
+                        <span>性别：</span>
+
+                        {% if emp.e_gender %}
+                            男
+                        {% else %}
+                            女
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <td><span>年龄：</span><span>{{ emp.e_age }}</span></td>
+                    <td><span>电话：</span><span>{{ emp.e_tel }}</span></td>
+                </tr>
+
+            </table>
+        </div>
+
+        <p class="son1">头像上传</p>
+        <div class="son2">
+            <form action="{% url 'appMain:uploadIcon' %}" method="post" enctype="multipart/form-data"
+                  class="form-inline">
+                <div class="form-group">
+                    <table>
+                        <tr>
+                            <td>
+                                <input type="file" name="file" class="inline">
+                                <input type="hidden" name="eid" value="{{ emp.id }}">
+                            </td>
+                            <td>
+                                <button type="submit" class="btn btn-default inline">上传</button>
+                            </td>
+                        </tr>
+                    </table>
+
+                </div>
+            </form>
+
+        </div>
+
+
+        <p class="son1">头像展示</p>
+        <div class="son2">
+            <img src="/static/upload/{{ emp.e_icon }}" class="img">
+        </div>
+    <div class="bottom"></div>
+    </div>
+{% endblock %}
